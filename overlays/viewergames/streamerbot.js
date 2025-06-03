@@ -1,16 +1,21 @@
+var connectionState = false;
 const client = new StreamerbotClient({
     port: 8080,
     immediate: true,
     autoReconnect: true,
     subscribe: '*',
     onConnect: (data) => {
+        connectionState = true;
+        SetConnectionStatus(connectionState);
         console.log(data);
     },
     onDisconnect: () => {
-        SetConnectionStatusFalse();
+        connectionState = true;
+        SetConnectionStatus(connectionState);
     },
     onError: () => {
-        SetConnectionStatusFalse();
+        connectionState = true;
+        SetConnectionStatus(connectionState);
     },
 });
 
@@ -51,14 +56,16 @@ client.on('General.Custom', async (payload) => {
 })
 
 let queueOpen = false; // Initial state
-function SetConnectionStatusTrue() {
+function SetConnectionStatus(connectionState) {
     const statusHeader = document.getElementById("queueState");
-    statusHeader.innerText = "Streamer.Bot Connected!";
+    if (connectionState) {
+        statusHeader.innerText = "Streamer.Bot Connected!";
+    } else {
+        statusHeader.innerText = "Streamer.Bot Disconnected...";
+    }
+
 }
-function SetConnectionStatusFalse() {
-    const statusHeader = document.getElementById("queueState");
-    statusHeader.innerText = "Streamer.Bot Disconnected...";
-}
+
 function updateToggleButton() {
     const toggleBtn = document.getElementById("toggleQueueBtn");
     toggleBtn.textContent = queueOpen ? "Close Queue" : "Open Queue";
