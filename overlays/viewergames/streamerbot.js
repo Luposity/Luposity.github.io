@@ -1,6 +1,15 @@
 var connectionState = false;
+var streamerBotPort = 8080;
+var streamerBotHostAddress = '127.0.0.1';
+
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+const customPort = urlParams.get('port');
+const customAddress = urlParams.get('address');
+
 const client = new StreamerbotClient({
-    port: 8080,
+    host: streamerBotHostAddress,
+    port: streamerBotPort,
     immediate: true,
     autoReconnect: true,
     subscribe: '*',
@@ -19,8 +28,12 @@ const client = new StreamerbotClient({
     },
 });
 
+async function StreamerBotConnect () {
+    await client.connect();
+}
 client.on('General.Custom', async (payload) => {
     if (!payload.data.GameQueue) return;
+    console.log(payload);
     const queueDiv = document.getElementById("gamequeue");
     const data = payload.data.GameQueue;
     queueDiv.innerHTML = "";
@@ -32,7 +45,7 @@ client.on('General.Custom', async (payload) => {
                 <img src="${item.ProfileImageUrl}" alt="${item.UserName}">
                 <span class="username">#${item.Position} ${item.UserName}</span>
                 <div class="hover-zone left">Remove ${item.UserName}?</div>
-                <div class="hover-zone right">Promote ${item.UserName}?</div>
+                <div class="hover-zone right">Choose ${item.UserName}?</div>
             `;
         button.onclick = (event) => {
             console.log(`Clicked on ${item.UserId} (${item.UserName})`);
@@ -60,6 +73,9 @@ function SetConnectionStatus(connectionState) {
     const statusHeader = document.getElementById("queueState");
     if (connectionState) {
         statusHeader.innerText = "Streamer.Bot Connected!";
+        setTimeout(() => {
+            statusHeader.innerText = "";
+        }, 5000);
     } else {
         statusHeader.innerText = "Streamer.Bot Disconnected.";
     }
@@ -67,7 +83,7 @@ function SetConnectionStatus(connectionState) {
 }
 
 function updateToggleButton() {
-    const toggleBtn = document.getElementById("toggleQueueBtn");
+    const toggleBtn = document.getElementById("queueToggleBtn");
     toggleBtn.textContent = queueOpen ? "Close Queue" : "Open Queue";
 }
 let sideMenu = document.getElementById("sideMenu");
@@ -80,6 +96,7 @@ function toggleSideMenu() {
 function toggleQueueState() {
     const newState = !queueOpen;
     client.doAction("262d2bc5-0a35-4b61-8381-9da168eb33b7");
+    updateToggleButton();
 }
 
 function refreshQueue() {
@@ -115,6 +132,9 @@ function resetAutoHideTimer() {
     }, 10000); // Auto-hide after 10 seconds
 }
 
+function clearQueue() {
+    client.doAction("ed7f8912-08d2-45dc-8742-7547b51275f2");
+}
 // Optional: reset timer on any button interaction
 const menuButtons = sideMenu.querySelectorAll("button");
 menuButtons.forEach(btn =>

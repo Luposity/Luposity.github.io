@@ -8,16 +8,17 @@
         <script type="text/javascript" src="https://unpkg.com/@streamerbot/client/dist/streamerbot-client.js"></script>
         <script type="text/javascript"
             src="https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js"></script>
-        <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+        <link rel="icon" type="image/x-icon" href="../assets/images/favicon.ico">
     </head>
 
     <body>
-        <div id="menuToggle" onclick="toggleSideMenu()">☰</div>
         <div id="sideMenu">
             <h2>Queue Controls</h2>
-            <button onclick="refreshQueue()">🔄 Refresh Queue</button>
-            <button onclick="toggleQueueState()" id="queueToggleBtn">Open Queue</button>
+            <button onclick="refreshQueue()">Refresh Queue</button>
+            <button onclick="toggleQueueState()" id="queueToggleBtn">Toggle Queue</button>
+            <button onclick="clearQueue()">Clear Queue</button>
         </div>
+        <div id="menuToggle" onclick="toggleSideMenu()">☰</div>
         <div class="header">
 
             Luposity's Game Queue Extension
