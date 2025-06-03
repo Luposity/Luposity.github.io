@@ -4,10 +4,13 @@ const client = new StreamerbotClient({
     autoReconnect: true,
     subscribe: '*',
     onConnect: (data) => {
+        SetConnectionStatusTrue();
     },
     onDisconnect: () => {
+        SetConnectionStatusFalse();
     },
     onError: () => {
+        SetConnectionStatusFalse();
     },
 });
 
@@ -48,7 +51,14 @@ client.on('General.Custom', async (payload) => {
 })
 
 let queueOpen = false; // Initial state
-
+function SetConnectionStatusTrue() {
+    const statusHeader = document.getElementById("queueState");
+    statusHeader.innerText = "Streamer.Bot Connected!";
+}
+function SetConnectionStatusFalse() {
+    const statusHeader = document.getElementById("queueState");
+    statusHeader.innerText = "Streamer.Bot Disconnected...";
+}
 function updateToggleButton() {
     const toggleBtn = document.getElementById("toggleQueueBtn");
     toggleBtn.textContent = queueOpen ? "Close Queue" : "Open Queue";
