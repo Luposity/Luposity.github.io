@@ -10,11 +10,11 @@ const client = new StreamerbotClient({
         console.log(data);
     },
     onDisconnect: () => {
-        connectionState = true;
+        connectionState = false;
         SetConnectionStatus(connectionState);
     },
     onError: () => {
-        connectionState = true;
+        connectionState = false;
         SetConnectionStatus(connectionState);
     },
 });
@@ -61,7 +61,7 @@ function SetConnectionStatus(connectionState) {
     if (connectionState) {
         statusHeader.innerText = "Streamer.Bot Connected!";
     } else {
-        statusHeader.innerText = "Streamer.Bot Disconnected...";
+        statusHeader.innerText = "Streamer.Bot Disconnected.";
     }
 
 }
