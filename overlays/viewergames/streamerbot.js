@@ -141,18 +141,3 @@ menuButtons.forEach(btn =>
         resetAutoHideTimer();
     })
 );
-
-function copyImportString() {
-    fetch('0.1.0_IMPORT_STRING.txt')
-        .then(function(response) {
-            if (!response.ok) throw new Error('File not found.');
-            return response.text();
-        })
-        .then(function(text) {
-            return navigator.clipboard.writeText(text);
-        })
-        .then(function() {
-            alert('0.1.0 Import String Copied!')
-        })
-}
-
