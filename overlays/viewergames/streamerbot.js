@@ -4,6 +4,7 @@ const client = new StreamerbotClient({
     autoReconnect: true,
     subscribe: '*',
     onConnect: (data) => {
+        console.log(data);
         SetConnectionStatusTrue();
     },
     onDisconnect: () => {
