@@ -96,7 +96,6 @@ function toggleSideMenu() {
 function toggleQueueState() {
     const newState = !queueOpen;
     client.doAction("262d2bc5-0a35-4b61-8381-9da168eb33b7");
-    updateToggleButton();
 }
 
 function refreshQueue() {
@@ -142,3 +141,18 @@ menuButtons.forEach(btn =>
         resetAutoHideTimer();
     })
 );
+
+function copyImportString() {
+    fetch('0.1.0_IMPORT_STRING.txt')
+        .then(function(response) {
+            if (!response.ok) throw new Error('File not found.');
+            return response.text();
+        })
+        .then(function(text) {
+            return navigator.clipboard.writeText(text);
+        })
+        .then(function() {
+            alert('0.1.0 Import String Copied!')
+        })
+}
+

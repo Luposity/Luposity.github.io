@@ -138,7 +138,7 @@ body {
     position: fixed;
     top: 1rem;
     left: 1rem;
-    font-size: 2rem;
+    font-size: 1.3rem;
     cursor: pointer;
     z-index: 1001;
     background: #333;
