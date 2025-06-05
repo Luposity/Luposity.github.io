@@ -1,21 +1,22 @@
 var connectionState = false;
-var streamerBotPort = 8080;
-var streamerBotHostAddress = '127.0.0.1';
+//var wsPort;
+//var wsHost;
 
-const queryString = window.location.search;
-const urlParams = new URLSearchParams(queryString);
-const customPort = urlParams.get('port');
-const customAddress = urlParams.get('address');
+//var customPort = document.getElementById('port').value;
+//var customHost = document.getElementById('host').value;
+const subMenu = document.getElementById("subMenu");
 
-const client = new StreamerbotClient({
-    host: streamerBotHostAddress,
-    port: streamerBotPort,
+var client = new StreamerbotClient({
+    host: "127.0.0.1",
+    port: 8080,
     immediate: true,
-    autoReconnect: true,
+    autoReconnect: false,
     subscribe: '*',
     onConnect: (data) => {
+        var wsConnectedPort = 8080;
+        var wsConnectedHost = "127.0.0.1";
         connectionState = true;
-        SetConnectionStatus(connectionState);
+        SetConnectionStatus(connectionState, data, wsConnectedHost, wsConnectedPort);
         console.log(data);
     },
     onDisconnect: () => {
@@ -29,8 +30,35 @@ const client = new StreamerbotClient({
 });
 
 async function StreamerBotConnect () {
+    const wsHost = document.getElementById('host').value;
+    const wsPort = document.getElementById('port').value;
+
+    client = new StreamerbotClient({
+        host: wsHost,
+        port: wsPort,
+        immediate: false,
+        autoReconnect: false,
+        subscribe: '*',
+        onConnect: (data) => {
+            var wsConnectedHost = wsHost;
+            var wsConnectedPort = wsPort;
+            connectionState = true;
+            SetConnectionStatus(connectionState, data, wsConnectedHost, wsConnectedPort);
+            console.log("Connected:", data);
+        },
+        onDisconnect: () => {
+            connectionState = false;
+            SetConnectionStatus(connectionState);
+        },
+        onError: () => {
+            connectionState = false;
+            SetConnectionStatus(connectionState);
+        },
+    });
+
     await client.connect();
 }
+
 client.on('General.Custom', async (payload) => {
     if (!payload.data.GameQueue) return;
     console.log(payload);
@@ -40,7 +68,6 @@ client.on('General.Custom', async (payload) => {
     data.forEach(item => {
         const button = document.createElement("button");
         button.className = "user-button";
-        //button.style.animationDelay = `${1000 * 100}ms`;
         button.innerHTML = `
                 <img src="${item.ProfileImageUrl}" alt="${item.UserName}">
                 <span class="username">#${item.Position} ${item.UserName}</span>
@@ -52,16 +79,13 @@ client.on('General.Custom', async (payload) => {
             const rect = button.getBoundingClientRect();
             const clickX = event.clientX - rect.left;
             if (clickX < rect.width / 2) {
-                // Left side clicked → Remove
                 client.doAction("93265e4b-269b-4f11-99e8-00fd43ce21df",
                     { "userId": item.UserId }
                 )
             } else {
-                // Right side clicked → Promote (example)
                 client.doAction("93265e4b-269b-4f11-99e8-00fd43ce21df",
                     { "userId": item.UserId }
                 )
-                //socket.send(JSON.stringify({ action: "promote", userId: item.UserId }));
             }
         };
         queueDiv.appendChild(button);
@@ -69,17 +93,26 @@ client.on('General.Custom', async (payload) => {
 })
 
 let queueOpen = false; // Initial state
-function SetConnectionStatus(connectionState) {
-    const statusHeader = document.getElementById("queueState");
-    if (connectionState) {
-        statusHeader.innerText = "Streamer.Bot Connected!";
-        setTimeout(() => {
-            statusHeader.innerText = "";
-        }, 5000);
-    } else {
-        statusHeader.innerText = "Streamer.Bot Disconnected.";
-    }
+function SetConnectionStatus(connectionState, data, wsConnectedHost, wsConnectedPort) {
+    const footer = document.getElementById("footer");
+    const status = document.getElementById("statusIndicator");
+    footer.classList.add("visible");
 
+    if (connectionState) {
+        status.innerText = `Connected to ${data.name} (${data.version})`;
+        footer.classList.remove("disconnected");
+        footer.classList.add("connected");
+        setTimeout(() => {
+            refreshQueue();
+        }, 1000)
+        setTimeout(() => {
+            footer.classList.remove("visible");
+        }, 10000);
+    } else {
+        status.innerText = "Streamer.Bot Disconnected. Try connecting in the Settings tab (⚙)";
+        footer.classList.remove("connected");
+        footer.classList.add("disconnected");
+    }
 }
 
 function updateToggleButton() {
@@ -141,3 +174,25 @@ menuButtons.forEach(btn =>
         resetAutoHideTimer();
     })
 );
+
+function toggleSubMenu() {
+    subMenu.classList.toggle("visible");
+}
+let menuVisible = false;
+const menu = document.getElementById('sideMenu');
+
+// Show menu when mouse is near left edge
+document.addEventListener('mousemove', (e) => {
+  if (e.clientX <= 10 && !menuVisible) {
+    menu.classList.add('open');
+    menuVisible = true;
+  } else if (e.clientX > 260 && menuVisible) {
+    // Hide if mouse moves away from menu area (menu width + buffer)
+    menu.classList.remove('open');
+    menuVisible = false;
+  }
+});
+
+function ConnectionStatusFooter() {
+
+}
