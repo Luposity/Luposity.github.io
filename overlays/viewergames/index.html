@@ -13,14 +13,14 @@
         <div id="sideMenu">
             <h2>Queue Controls</h2>
             <button onclick="refreshQueue()">Refresh Queue</button>
-            <button onclick="toggleQueueState()">Toggle Queue</button>
+            <button onclick="toggleQueueState()" id="queueState">Toggle Queue</button>
             <button onclick="clearQueue()">Clear Queue</button>
             <button onclick="toggleSubMenu()">WebSocket Settings</button>
             <div id="subMenu" class="submenu">
                 <label>Host:</label>
                 <input type="text" id="host" placeholder="127.0.0.1" value="127.0.0.1" />
                 <label>Port:</label>
-                <input type="number" id="port" placeholder="8080" value="8080" />
+                <input type="number" id="port" placeholder="8080" />
                 <button onclick="StreamerBotConnect ()">Connect to Streamer.Bot</button>
             </div>
         </div>

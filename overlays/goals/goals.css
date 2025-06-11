@@ -1,0 +1,78 @@
+    body,
+    html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: transparent;
+        font-family: Rubik, sans-serif;
+        font-weight: 400;
+    }
+
+    .center-wrapper {
+        text-align: center;
+    }
+
+    .loading-container {
+        width: 900px;
+        height: 40px;
+        background-color: rgba(44, 44, 44, 0.9);
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.8);
+        position: relative;
+        border-radius: 20px 20px 20px 20px;
+    }
+
+    .loading-bar {
+        height: 100%;
+        width: 0%;
+        background-color: #AF00FF;
+        transition: width 0.5s ease, border-radius 0.3s ease;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        border-radius: 0 20px 20px 0;
+        /* Rounded right by default */
+    }
+
+    .loading-bar.no-radius {
+        border-radius: 0;
+        /* Fully square when complete */
+    }
+
+    .bar-text {
+        position: relative;
+        z-index: 2;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 10px;
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        pointer-events: none;
+        font-family: 'Rubik Medium';
+        /*transform: translateY(-10px);*/
+        
+    }
+    .goalNameVisible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    #goalName {
+        text-shadow: 0 0 4px #000000, 0 0 8px #0f0f0f;
+        transition: opacity 0.5s ease, transform 0.5s ease;
+        opacity: 1;
+    }
+
+    #currentValue {
+        text-shadow: 0 0 4px #000000, 0 0 8px #0f0f0f;
+    }
+
+    #targetValue {
+        text-shadow: 0 0 4px #000000, 0 0 8px #0f0f0f;
+    }

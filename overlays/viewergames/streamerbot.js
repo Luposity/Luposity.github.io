@@ -1,9 +1,4 @@
 var connectionState = false;
-//var wsPort;
-//var wsHost;
-
-//var customPort = document.getElementById('port').value;
-//var customHost = document.getElementById('host').value;
 const subMenu = document.getElementById("subMenu");
 
 var client = new StreamerbotClient({
@@ -63,6 +58,8 @@ client.on('General.Custom', async (payload) => {
     if (!payload.data.GameQueue) return;
     console.log(payload);
     const queueDiv = document.getElementById("gamequeue");
+    const queueButton = document.getElementById("queueState");
+    queueButton.innerText = payload.data.QueueStatus ? "Close Queue" : "Open Queue";
     const data = payload.data.GameQueue;
     queueDiv.innerHTML = "";
     data.forEach(item => {
@@ -83,7 +80,7 @@ client.on('General.Custom', async (payload) => {
                     { "userId": item.UserId }
                 )
             } else {
-                client.doAction("93265e4b-269b-4f11-99e8-00fd43ce21df",
+                client.doAction("6062c093-21cc-4fde-8821-978cc5cd862a",
                     { "userId": item.UserId }
                 )
             }
@@ -92,7 +89,7 @@ client.on('General.Custom', async (payload) => {
     })
 })
 
-let queueOpen = false; // Initial state
+let queueOpen = false;
 function SetConnectionStatus(connectionState, data, wsConnectedHost, wsConnectedPort) {
     const footer = document.getElementById("footer");
     const status = document.getElementById("statusIndicator");
@@ -161,13 +158,13 @@ function resetAutoHideTimer() {
     clearTimeout(autoHideTimer);
     autoHideTimer = setTimeout(() => {
         closeSideMenu();
-    }, 10000); // Auto-hide after 10 seconds
+    }, 10000);
 }
 
 function clearQueue() {
     client.doAction("ed7f8912-08d2-45dc-8742-7547b51275f2");
 }
-// Optional: reset timer on any button interaction
+
 const menuButtons = sideMenu.querySelectorAll("button");
 menuButtons.forEach(btn =>
     btn.addEventListener("click", () => {
@@ -181,18 +178,13 @@ function toggleSubMenu() {
 let menuVisible = false;
 const menu = document.getElementById('sideMenu');
 
-// Show menu when mouse is near left edge
 document.addEventListener('mousemove', (e) => {
   if (e.clientX <= 10 && !menuVisible) {
     menu.classList.add('open');
     menuVisible = true;
   } else if (e.clientX > 260 && menuVisible) {
-    // Hide if mouse moves away from menu area (menu width + buffer)
     menu.classList.remove('open');
     menuVisible = false;
   }
 });
 
-function ConnectionStatusFooter() {
-
-}
