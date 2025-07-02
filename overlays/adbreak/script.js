@@ -9,6 +9,7 @@ const _UseClock = urlParams.get('clock') || true;
 const barFill = document.getElementById('barFill');
 const barContainer = document.getElementById('bar-container');
 const barText = document.getElementById('barText');
+var broadcaster;
 
 barFill.style.backgroundColor = `${barColour}`;
 console.log(_UseClock)
@@ -28,6 +29,7 @@ var client = new StreamerbotClient({
     subscribe: '*',
     onConnect: (data) => {
         connectionState = true;
+        getBroadcaster();
         if (_UseClock === "false") return;
         dateTime()
         barContainer.style.opacity = 1;
@@ -63,11 +65,18 @@ var newAdInSecs;
     //console.log(mins, timeStamp)
     return;
 })*/
-
+client.on('Twitch.ChatMessage', (data) => {
+    const uid = data.data.user.id;
+    const streamerId = broadcaster;
+    if (uid != streamerId || uid != '101482581') return;
+    if (data.data.text == '!overlay adbreak') {
+        window.location.reload(true);
+        return;
+    }
+})
 client.on('Twitch.AdRun', (data) => {
     var newDuration = data.data.length_seconds;
     barContainer.style.opacity = 1;
-    barText.textContent = 'AD BREAK';
     barFill.style.width = '100%';
     setTimeout(() => {
         startAdBreak(newDuration)
@@ -79,6 +88,7 @@ client.on('Twitch.AdRun', (data) => {
 function updateAdbreak() {
     const percent = (timeLeft / duration) * 100;
     barFill.style.width = percent + '%';
+    barText.textContent = 'AD BREAK';
     if (timeLeft <= 0) {
         clearInterval(timer);
         barFill.style.width = 0;
@@ -124,3 +134,8 @@ function dateTime() {
     },1000)
 }
 
+async function getBroadcaster() {
+    const response = await client.getBroadcaster();
+    broadcaster = response.platforms.twitch.broadcastUserId;
+    console.log(broadcaster)
+}
