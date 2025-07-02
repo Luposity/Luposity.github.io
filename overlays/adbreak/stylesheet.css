@@ -1,27 +1,30 @@
     body {
         margin: 0;
-        height: 100vh;
+        height: 0;
         display: flex;
-        justify-content: center;
-        align-items: center;
+        justify-content: left;
+        align-items: normal;
         background-color: transparent;
         font-family: 'Rubik', sans-serif;
-        font-weight: 600;
+        font-weight: 700;
     }
     
     .bar-container {
-        width: 200px;
-        height: 40px;
-        background-color: rgba(44, 44, 44, 0.9);
+        width: 165px;
+        height: 45px;
+        background-color: rgba(44, 44, 44, 0.95);
         position: relative;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.8);
         overflow: hidden;
-        border-radius: 20px 20px 20px 20px;
+        border-radius: 10px 10px 10px 10px;
         opacity: 0;
-        transition: opacity 1s ease-out;
+        transition: opacity 1s ease-out, width 0.5s ease-out;
+        left: 30px;
+        top: 30px;
     }
     
     .bar-fill {
+        width: 0%;
         height: 100%;
         background-color: #AF00FF;
         transition: width 0.5s linear;
@@ -41,4 +44,7 @@
         text-shadow: 0 0 12px black;
         font-size: 100%;
         letter-spacing: 1.2px;
+        opacity: 1;
+        transition: opacity 1s ease-out, width 1s ease-out;
+        font-size: 16px;
     }
