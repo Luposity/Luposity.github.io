@@ -24,12 +24,12 @@ var client = new StreamerbotClient({
 });
 
 const container = document.getElementById("clipContainer");
-const socket = new WebSocket('ws://localhost:8080'); // Adjust to your server
+//const socket = new WebSocket('ws://localhost:8080'); // Adjust to your server
 
 let currentIframe = null;
 
 function showClip(clipId) {
-    const embedUrl = `https://clips.twitch.tv/embed?clip=${clipId}&parent=luposity.github.io/overlays/shoutout-clips/index.html&autoplay=true&muted=false&frameborder=0&allowfullscreen=true`;
+    const embedUrl = `https://clips.twitch.tv/embed?clip=${clipId}&parent=luposity.github.io/overlays/shoutout-clips&autoplay=true&muted=false&allowfullscreen=true`;
 
     // Clean up any existing iframe
     if (currentIframe) {
