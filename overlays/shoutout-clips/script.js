@@ -29,7 +29,7 @@ const socket = new WebSocket('ws://localhost:8080'); // Adjust to your server
 let currentIframe = null;
 
 function showClip(clipId) {
-    const embedUrl = `https://clips.twitch.tv/embed?clip=${clipId}&parent=https://luposity.github.io/&autoplay=true&muted=false`;
+    const embedUrl = `https://clips.twitch.tv/embed?clip=${clipId}&parent=luposity.github.io/&autoplay=true&muted=false`;
 
     // Clean up any existing iframe
     if (currentIframe) {
