@@ -29,7 +29,7 @@ const container = document.getElementById("clipContainer");
 let currentIframe = null;
 
 function showClip(clipId) {
-    const embedUrl = `https://clips.twitch.tv/embed?clip=${clipId}&parent=luposity.github.io/overlays/shoutout-clips&autoplay=true&muted=false&allowfullscreen=true`;
+    const embedUrl = `https://clips.twitch.tv/embed?clip=${clipId}&parent=luposity.github.io/overlays/shoutout-clips/index.html&autoplay=true&muted=false&allowfullscreen=true`;
 
     // Clean up any existing iframe
     if (currentIframe) {
