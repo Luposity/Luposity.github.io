@@ -1,0 +1,329 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg-header: #111;
+    --bg-content: #1a1a1a;
+    --text-primary: #c9b9f9;
+    --accent: #9f51e3;
+    --border-color: #2a2a2a;
+    /*--bg-page: #000;*/
+}
+
+html,
+body {
+    height: 100%;
+    font-family: 'Rubik', sans-serif;
+    background-color: #131313;
+    color: #e6e1ff;
+}
+
+body {
+    background-color: var(--bg-page);
+    color: var(--text-primary);
+    font-family: 'Rubik', sans-serif;
+    margin: 0;
+    transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+a {
+    color: #6a0dad;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Sticky header */
+
+header {
+    position: sticky;
+    top: 0;
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 2rem;
+    background-color: #1a1a1a;
+    box-shadow: 0 4px 8px rgba(159, 81, 227, 0.6);
+    font-family: 'Rubik', sans-serif;
+    z-index: 1000;
+}
+
+.header-left {
+    z-index: 2;
+}
+
+.header-left .logo {
+    height: 50px;
+    width: 50px;
+    border-radius: 8px;
+    object-fit: contain;
+}
+
+.header-center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 1.5rem;
+    z-index: 1;
+}
+
+.header-center button {
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+}
+
+.header-center button:hover {
+    background-color: var(--accent);
+    color: var(--bg-header);
+}
+
+.header-right {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    z-index: 2;
+}
+
+/* Image below header with page title overlay */
+
+.header-image-container {
+    position: relative;
+    width: 100%;
+    height: 250px;
+    overflow: hidden;
+    background-color: #2a2a2a;
+}
+
+.header-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.9);
+    -webkit-filter: blur(5px);
+}
+
+.page-title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--text-primary);
+    font-size: 7rem;
+    font-weight: 700;
+    text-shadow: 0 0 8px #6a0dad;
+    user-select: none;
+    white-space: nowrap;
+}
+
+/* Main content area */
+
+main {
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    padding: 40px 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    color: #ccc;
+}
+
+.about-me {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 400px;
+    min-width: 0;
+    /* ✅ This is critical! */
+    font-size: 1.1rem;
+    line-height: 1.5;
+}
+
+.twitch-embed,
+.about-image {
+    flex: 1 1 400px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 0 15px #6a0dad;
+    min-height: 300px;
+    background: #1a1a1a;
+}
+
+/* Footer with social buttons */
+
+footer {
+    background-color: #1a1a1a;
+    padding: 20px 30px;
+    border-top: 3px solid #6a0dad;
+    text-align: center;
+    color: #888;
+}
+
+.social-icons {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.social-icons a {
+    margin: 0 10px;
+    color: #a8a0c3;
+    font-size: 1.3rem;
+    transition: transform 0.2s ease, color 0.2s ease;
+    display: inline-block;
+}
+
+.social-icons a:hover {
+    color: #caa2f5;
+    transform: scale(1.3);
+}
+
+.copy-container {
+    display: flex;
+    flex: 1 1 auto;
+    min-width: 0;
+    /* ✅ Prevent overflow */
+    max-width: 100%;
+    /* ✅ Stay within parent */
+    align-items: center;
+    background-color: #1a1a1a;
+    border: 1px solid #2e2e2e;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    margin-top: 1rem;
+    color: #b97af1;
+    font-family: 'Fira Mono', monospace;
+    gap: 1rem;
+    overflow: hidden;
+    margin-top: 1rem;
+    /* ✅ Hide overflow if it happens */
+}
+
+.copy-text {
+    white-space: nowrap;
+    /* or 'normal' to wrap */
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    /* ✅ Truncates with "..." */
+    min-width: 0;
+    /* ✅ Shrink properly in flex */
+    flex: 1;
+    /* ✅ Take available space */
+}
+
+.copy-container pre {
+    margin: 0;
+    flex: 1;
+    white-space: nowrap;
+    /* prevents wrapping */
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    /* horizontal scroll if too long */
+    font-size: 1rem;
+    user-select: all;
+    min-width: 0;
+}
+
+.copy-container button {
+    background-color: #9f51e3;
+    border: none;
+    color: white;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.copy-container button:hover {
+    background-color: #b97af1;
+}
+
+.kofi {
+    background: url('kofi_symbol.svg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: inline-block;
+    height: 20px;
+    width: 25px;
+    color: #a8a0c3;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropbtn {
+    background-color: #6a0dad;
+    color: white;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.dropbtn:hover {
+    background-color: #9c4dff;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #1a1a1a;
+    min-width: 160px;
+    box-shadow: 0 8px 16px rgba(106, 13, 173, 0.4);
+    border-radius: 5px;
+    z-index: 1000;
+}
+
+.dropdown-content a {
+    color: #ddd;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #6a0dad;
+}
+
+/* Show dropdown when container has .show */
+
+.dropdown.show .dropdown-content {
+    display: block;
+}
+
+/* Responsive tweaks */
+
+@media (max-width: 900px) {
+    main {
+        flex-direction: column;
+        padding: 20px 15px;
+    }
+    .about-me,
+    .twitch-embed,
+    .copy-container,
+    .copy-container pre,
+    .about-image {
+        flex: 1 1 100%;
+    }
+    .header-image-container {
+        height: 180px;
+    }
+    .page-title {
+        font-size: 2.5rem;
+    }
+}
